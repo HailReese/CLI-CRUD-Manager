@@ -8,12 +8,12 @@ public class Label {
 		this.status = Status.ACTIVE;
 	}
 
-	private static int maxId;
-	private final int id;
+	private static long maxId;
+	private final long id;
 	private String name;
 	private Status status;
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 

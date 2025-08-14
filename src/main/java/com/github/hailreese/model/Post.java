@@ -23,14 +23,14 @@ public class Post {
 		this.content = "None";
 	}
 
-	private static int maxId;
-	private final int id;
+	private static long maxId;
+	private final long id;
 	private String title;
 	private String content;
 	private List<Label> labels;
 	private Status status;
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 

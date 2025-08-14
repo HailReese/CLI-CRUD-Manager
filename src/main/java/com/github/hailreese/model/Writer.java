@@ -23,14 +23,14 @@ public class Writer {
 		this.lastName = "None";
 	}
 
-	private static int maxId;
-	private final int id;
+	private static long maxId;
+	private final long id;
 	private String firstName;
 	private String lastName;
 	private List<Post> posts;
 	private Status status;
 
-	public int getId() {
+	public long getId() {
 		return this.id;
 	}
 
