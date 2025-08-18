@@ -54,7 +54,10 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 	public Writer update(Writer entity) {
 		try {
 			List<Writer> writers = readWriters();
-			writers.stream().filter(e -> e.getId() == entity.getId()).peek(e -> e = entity);
+			writers.stream()
+					.filter(e -> e.getId() == entity.getId())
+					.peek(e -> e = entity)
+					.close();
 
 			Files.write(Paths.get(filePath), gson.toJson(writers, listTypeToken).getBytes());
 			return entity;
@@ -78,15 +81,16 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 	private List<Writer> readWriters() {
 		List<Writer> temp;
 		if (!Files.exists(Paths.get(filePath))) {
-			return new ArrayList<>();
+			return temp = new ArrayList<>();
 		}
 		try {
 			temp = gson.fromJson(new String(Files.readAllBytes(Paths.get(filePath))), listTypeToken);
 		} catch (IOException e) {
-			return new ArrayList<>();
+			return temp = new ArrayList<>();
 		}
 		if (temp == null) {
-			return new ArrayList<>();
+			return temp = new ArrayList<>();
 		}
+		return temp;
 	}
 }

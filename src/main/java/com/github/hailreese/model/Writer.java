@@ -5,29 +5,19 @@ import java.util.List;
 
 public class Writer {
 
-	private Writer() {
-		this.id = maxId + 1;
-		this.posts = new ArrayList<>();
-		this.status = Status.ACTIVE;
-	}
-
 	public Writer(String firstName, String lastName) {
-		this();
+		this.id = maxId + 1;
 		this.firstName = firstName;
 		this.lastName = lastName;
-	}
-
-	public Writer(String firstName) {
-		this();
-		this.firstName = firstName;
-		this.lastName = "None";
+		this.postsId = new ArrayList<>();
+		this.status = Status.ACTIVE;
 	}
 
 	private static long maxId;
 	private final long id;
 	private String firstName;
 	private String lastName;
-	private List<Post> posts;
+	private List<Long> postsId;
 	private Status status;
 
 	public long getId() {
@@ -50,8 +40,8 @@ public class Writer {
 		this.lastName = lastName;
 	}
 
-	public List<Post> getPosts() {
-		return this.posts;
+	public List<Long> getPostsId() {
+		return this.postsId;
 	}
 
 	public Status getStatus() {
