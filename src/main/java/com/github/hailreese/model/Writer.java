@@ -6,7 +6,7 @@ import java.util.List;
 public class Writer {
 
 	public Writer(String firstName, String lastName) {
-		this.id = maxId + 1;
+		this.id = ++maxId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.postsId = new ArrayList<>();
@@ -52,4 +52,12 @@ public class Writer {
 		this.status = status;
 	}
 
+	public static void setMaxId(Long id) {
+		maxId = id;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("id: %d,\tfirstName: %s,\tlastName: %s", id, firstName, lastName);
+	}
 }

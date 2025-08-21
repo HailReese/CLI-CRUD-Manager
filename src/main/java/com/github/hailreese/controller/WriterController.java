@@ -10,6 +10,7 @@ public class WriterController {
 
 	public WriterController(WriterRepository writerRepo) {
 		this.writerRepo = writerRepo;
+		Writer.setMaxId(writerRepo.getMaxId());
 	}
 
 	public void create(String firstName, String lastName) {

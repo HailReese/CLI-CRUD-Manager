@@ -1,10 +1,13 @@
 package com.github.hailreese;
 
+import com.github.hailreese.controller.WriterController;
 import com.github.hailreese.repository.classes.GsonWriterRepositoryImpl;
+import com.github.hailreese.view.MainView;
+import com.github.hailreese.view.WriterView;
 
 public class Main {
     public static void main(String[] args) {
-        var test = new GsonWriterRepositoryImpl();
-        test.getById(1L);
+        MainView mainView = new MainView();
+        mainView.showMainMenu();
     }
 }

@@ -16,20 +16,19 @@ import com.google.gson.reflect.TypeToken;
 
 public class GsonWriterRepositoryImpl implements WriterRepository {
 
-	private static final String filePath = "src\\main\\resources\\WriterRepo.json";
+	private static final String filePath = Paths.get("src", "main", "resources", "WriterRepo.json").toString();
 	private static final Type listTypeToken = new TypeToken<List<Writer>>() {
 	}.getType();
 	private final Gson gson = new Gson();
 
 	@Override
 	public Writer getById(Long id) {
-		Writer writer = null;
-		try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
-			writer = gson.fromJson(reader, Writer.class);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return writer;
+		List<Writer> writers = readWriters();
+		return writers.stream()
+				.filter(e -> e.getId() == id)
+				.filter(e -> e.getStatus().equals(Status.ACTIVE))
+				.findFirst()
+				.orElse(null);
 	}
 
 	@Override
@@ -81,6 +80,11 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 	private List<Writer> readWriters() {
 		List<Writer> temp;
 		if (!Files.exists(Paths.get(filePath))) {
+			try {
+				Files.createFile(Paths.get(filePath));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return temp = new ArrayList<>();
 		}
 		try {
@@ -92,5 +96,16 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 			return temp = new ArrayList<>();
 		}
 		return temp;
+	}
+
+	@Override
+	public Long getMaxId() {
+		List<Writer> list = readWriters();
+		if (!list.isEmpty()) {
+			Writer lastWriter = list.getLast();
+			return lastWriter.getId();
+		} else {
+			return 0L;
+		}
 	}
 }
