@@ -53,10 +53,7 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 	public Writer update(Writer entity) {
 		try {
 			List<Writer> writers = readWriters();
-			writers.stream()
-					.filter(e -> e.getId() == entity.getId())
-					.peek(e -> e = entity)
-					.close();
+			writers.set((int) (entity.getId() - 1), entity);
 
 			Files.write(Paths.get(filePath), gson.toJson(writers, listTypeToken).getBytes());
 			return entity;
@@ -69,7 +66,9 @@ public class GsonWriterRepositoryImpl implements WriterRepository {
 	public void deleteById(Long id) {
 		try {
 			List<Writer> writers = readWriters();
-			writers.stream().filter(e -> e.getId() == id).peek(e -> e.setStatus(Status.DELETED));
+			Writer writer = getById(id);
+			writer.setStatus(Status.DELETED);
+			writers.set((int) (id - 1), writer);
 
 			Files.write(Paths.get(filePath), gson.toJson(writers, listTypeToken).getBytes());
 		} catch (IOException e) {

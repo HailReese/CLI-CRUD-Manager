@@ -72,13 +72,15 @@ public class WriterView {
 			Long id = scanner.nextLong();
 			scanner.nextLine(); // очистка буфера
 
+			if (writerController.readById(id).equals(null))
+				new NullPointerException();
+
 			System.out.println(writerController.readById(id).toString());
 		} catch (InputMismatchException e) {
-			System.out.println("Неверный формат данных");
+			System.out.println("Ошибка! Неверный формат данных.");
 			scanner.nextLine(); // очистка буфера
 		} catch (NullPointerException e) {
-			System.out.println("Такой писатель не найден");
-			scanner.nextLine(); // очистка буфера
+			System.out.println("Ошибка! Писателя с данным id не существует.");
 		}
 	}
 
@@ -88,6 +90,9 @@ public class WriterView {
 			Long id = scanner.nextLong();
 			scanner.nextLine(); // очистка буфера
 
+			if (writerController.readById(id).equals(null))
+				new NullPointerException();
+
 			System.out.print("Введите новое имя писателя: ");
 			String firstName = scanner.next().trim();
 			System.out.print("Введите новую фамилию писателя: ");
@@ -96,11 +101,10 @@ public class WriterView {
 			System.out.println("Новые данные писателя под id " + id + ": "
 					+ writerController.update(id, firstName, lastName).toString());
 		} catch (InputMismatchException e) {
-			System.out.println("Неверный формат данных");
+			System.out.println("Ошибка! Неверный формат данных");
 			scanner.nextLine(); // очистка буфера
 		} catch (NullPointerException e) {
-			System.out.println("Такой писатель не найден");
-			scanner.nextLine(); // очистка буфера
+			System.out.println("Ошибка! Писателя с данным id не существует");
 		}
 	}
 
@@ -110,14 +114,16 @@ public class WriterView {
 			Long id = scanner.nextLong();
 			scanner.nextLine(); // очистка буфера
 
+			if (writerController.readById(id).equals(null))
+				new NullPointerException();
+
 			writerController.deleteWriter(id);
 			System.out.println("Писатель под id " + id + " успешно удален.");
 		} catch (InputMismatchException e) {
 			System.out.println("Неверный формат данных");
 			scanner.nextLine(); // очистка буфера
 		} catch (NullPointerException e) {
-			System.out.println("Такой писатель не найден");
-			scanner.nextLine(); // очистка буфера
+			System.out.println("Писателя с данным id не существует");
 		}
 	}
 }

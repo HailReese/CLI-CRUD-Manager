@@ -2,6 +2,7 @@ package com.github.hailreese.controller;
 
 import java.util.List;
 
+import com.github.hailreese.model.Status;
 import com.github.hailreese.model.Writer;
 import com.github.hailreese.repository.interfaces.WriterRepository;
 
@@ -19,7 +20,9 @@ public class WriterController {
 	}
 
 	public List<Writer> readAll() {
-		return writerRepo.getAll();
+		return writerRepo.getAll().stream()
+				.filter(e -> e.getStatus().equals(Status.ACTIVE))
+				.toList();
 	}
 
 	public Writer readById(Long id) {
@@ -28,9 +31,13 @@ public class WriterController {
 
 	public Writer update(Long id, String firstName, String lastName) {
 		Writer writer = writerRepo.getById(id);
-		writer.setFirstName(firstName);
-		writer.setLastName(lastName);
-		return writerRepo.update(writer);
+		if (writer != null) {
+			writer.setFirstName(firstName);
+			writer.setLastName(lastName);
+			return writerRepo.update(writer);
+		} else {
+			return null;
+		}
 	}
 
 	public void deleteWriter(Long id) {
